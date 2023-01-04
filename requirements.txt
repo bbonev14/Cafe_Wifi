@@ -1,0 +1,6 @@
+Flask~=2.2.2
+Werkzeug~=2.2.2
+WTForms~=3.0.1
+googlemaps~=4.7.3
+selenium~=4.7.2
+beautifulsoup4~=4.11.1
