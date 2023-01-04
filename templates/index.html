@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include "header.html" %}
+<body>
+
+<section class="colored-section" id="title">
+    <div class="container-fluid p-0">
+        <!-- Title -->
+        <div class="jumbotron bg-cover text-white" id="titlescreen">
+            <div class="mask" style="background-color: rgba(0, 0, 0, 0.3); height:300px;">
+                <div class="container py-5 text-center">
+                    <h1 class="display-4 font-weight-bold">Fancy a good place for a coffee?</h1>
+                    <p class="font-italic mb-0">An open platform to share and review all cafes that you have
+                        visited.</p>
+                    <p class="font-italic">Made by
+                        <a href="#" class="text-white">
+                            <u>B. BONEV</u>
+                        </a>
+                    </p>
+                    <a href="#cafes" role="button" class="btn btn-primary px-5">See All</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Page content -->
+{% block content %}
+<section class="colored-section" id="main">
+    <div class="container-fluid pt-5">
+        <div class="row">
+            <!-- Side card -->
+            <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12 leftcol ">
+                <div class="card mb-3">
+                    <img class="card-img-top" src="{{cafe_info.img_url}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{cafe_info.name}}</h5>
+                        <p class="card-text">{{cafe_info.name}} is located in {{cafe_info.location}}</p>
+                        <p class="card-text">The cafe has a seating of about {{cafe_info.seats}} seats</p>
+                        <a href="{{cafe_info.map_url}}" target="_blank" class="btn btn-outline-secondary btn-block">Google
+                            Maps</a>
+                        {% if current_user.id == 1:%}
+                        <a href="{{url_for('delete_cafe', cafe_id=cafe_info.id)}}" target="_blank"
+                           class="btn btn-outline-danger btn-block">Delete</a>
+                        <a href="{{url_for('edit_cafe', cafe_id=cafe_info.id)}}" target="_blank"
+                           class="btn btn-outline-success btn-block">Edit</a>
+
+                        {% endif %}
+                    </div>
+                    <div class="card-body row">
+                        <h5 class="card-title">More Info:</h5>
+                        <div class="col-xl-6 col-lg-8 p-0 m-0 d-none  d-lg-block">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Coffee price:</li>
+                                <li class="list-group-item">Sockets:</li>
+                                <li class="list-group-item">Phone friendly:</li>
+                                <li class="list-group-item">Toilet:</li>
+                                <li class="list-group-item">Wifi:</li>
+                            </ul>
+                        </div>
+                        <div class="col-xl-6 col-lg-4 p-0 m-0 d-none d-lg-block">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">{{cafe_info.coffee_price}}</li>
+                                <li class="list-group-item">{% if cafe_info.can_take_calls %}✔{%else%} ❌{%endif%}</li>
+                                <li class="list-group-item">{% if cafe_info.has_sockets %}✔{%else%} ❌{%endif%}</li>
+                                <li class="list-group-item">{% if cafe_info.has_toilet %}✔{%else%} ❌{%endif%}</li>
+                                <li class="list-group-item">{% if cafe_info.has_wifi %}✔{%else%} ❌{%endif%}</li>
+                            </ul>
+                        </div>
+                        <div class="col-12 d-lg-none">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">Coffee price: {{cafe_info.coffee_price}}</li>
+                                <li class="list-group-item">Sockets: {% if cafe_info.can_take_calls %}✔{%else%}
+                                    ❌{%endif%}
+                                </li>
+                                <li class="list-group-item">Phone friendly: {% if cafe_info.has_sockets %}✔{%else%}
+                                    ❌{%endif%}
+                                </li>
+                                <li class="list-group-item">Toilet:{% if cafe_info.has_toilet %}✔{%else%} ❌{%endif%}
+                                </li>
+                                <li class="list-group-item">Wifi: {% if cafe_info.has_wifi %}✔{%else%} ❌{%endif%}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- All cards -->
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 rightcol ">
+                <div class="container" id="cafes">
+                    <div class="row justify-content-center">
+                        {%for cafe in cafes%}
+                        <div class="card m-1 mb-3" style="width: 18rem;">
+                            <img src={{cafe.img_url}} class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{cafe.name}}</h5>
+                                <h6 class="card-title">{{cafe.location}}</h6>
+                            </div>
+                            <div class="btn-group m-1">
+                                <a href="{{url_for('home', cafe_id=cafe.id, cafe_name=cafe.name, cafe_loc=cafe.location)}}"
+                                   class="btn btn-outline-secondary btn-block">Info</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <!-- Third column -->
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 leftcol  d-none d-md-none d-lg-block ">
+                <div id="map-container-google-1" class="z-depth-1-half map-container" style="height: 50%;">
+                    <iframe src={{map_code}} width="600" height="450" style="border:0;" allowfullscreen=""
+                            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% include "footer.html" %}
+
+</body>
+</html>

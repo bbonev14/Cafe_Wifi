@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% from 'bootstrap5/form.html' import render_form %}
+<html lang="en">
+{% include "header.html" %}
+<body>
+<section class="colored-section" id="title">
+    <div class="container-fluid p-0">
+        <div class="jumbotron bg-cover text-white add_page_title">
+            <div class="mask" style="background-color: rgba(0, 0, 0, 0.3); height:200px;">
+                <div class="container py-5 text-center">
+                    <h1 class="display-4 font-weight-bold">Add your favourite place for a coffee.</h1>
+                    <p class="font-italic mb-0">Fast and easy way to share.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="colored-section">
+    <div class="container">
+        <div class="row pt-5 pb-5">
+            <div class="col-sm-12 col-md-6 col-xl-6">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                {% for message in messages %}
+                <p class="alert alert-danger" role="alert">{{ message }}</p>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+                {% if is_edit: %}
+                <h1>Edit {{cafe.name}}</h1>
+                {% else: %}
+                <h1>Add a new cafe into the database</h1>
+                {% endif %}
+                {{ render_form(form) }}
+                <!-- This is where your WTForm will go -->
+
+                <p class="space-above"><a href="{{url_for('home')}}">See all cafes</a></p>
+
+            </div>
+            <div class="col-sm-12 col-md-6 col-xl-6">
+                <div id="map-container-google-1" class="z-depth-1-half map-container add_page_map">
+                    <iframe src={{map}} width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include "footer.html" %}
+</body>
+</html>
